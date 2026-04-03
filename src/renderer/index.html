@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图像相似度核查工具</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1>图像核查工具</h1>
+      <nav>
+        <button data-view="home" class="active">首页</button>
+        <button data-view="detect">新图检测</button>
+        <button data-view="history">历史记录</button>
+        <button data-view="settings">设置</button>
+      </nav>
+      <p class="small" id="globalStatus">等待操作</p>
+    </aside>
+
+    <main>
+      <section id="view-home" class="view active">
+        <h2>目录索引与监听</h2>
+        <div class="actions">
+          <button id="pickDirectoryBtn">选择目录</button>
+          <button id="reindexBtn">重建索引</button>
+          <button id="toggleWatchBtn">启动监听</button>
+        </div>
+        <div class="card">
+          <p><strong>当前目录：</strong><span id="currentDirectory">未选择</span></p>
+          <p><strong>已索引数量：</strong><span id="indexedCount">0</span></p>
+          <p><strong>上次索引时间：</strong><span id="lastIndexedAt">-</span></p>
+          <p><strong>监听状态：</strong><span id="watchStatus">未启动</span></p>
+        </div>
+        <div class="card">
+          <p><strong>扫描进度</strong></p>
+          <p id="scanProgress">-</p>
+          <p><strong>索引进度</strong></p>
+          <p id="indexProgress">-</p>
+        </div>
+      </section>
+
+      <section id="view-detect" class="view">
+        <h2>新图检测</h2>
+        <div class="actions">
+          <input id="uploadInput" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp" />
+        </div>
+        <div id="dropZone" class="drop-zone">拖拽单张或多张图片到这里</div>
+        <div id="detectError" class="error"></div>
+        <div id="resultContainer"></div>
+      </section>
+
+      <section id="view-history" class="view">
+        <h2>历史记录</h2>
+        <div class="filters">
+          <input id="filterDirectory" placeholder="目录过滤" />
+          <select id="filterLevel">
+            <option value="">全部判定</option>
+            <option value="EXACT_DUPLICATE">完全重复</option>
+            <option value="HIGH_SIMILARITY">高度相似</option>
+            <option value="MEDIUM_SIMILARITY">中度相似</option>
+            <option value="NOT_SIMILAR">不相似</option>
+          </select>
+          <select id="filterAction">
+            <option value="">全部动作</option>
+            <option value="KEEP_NEW">保留新图</option>
+            <option value="SKIP_SAVE">跳过保存</option>
+            <option value="REPLACE_OLD">替换旧图</option>
+            <option value="MOVE_TO_PENDING">移动到待确认</option>
+            <option value="IGNORE_ONCE">忽略</option>
+          </select>
+          <button id="refreshHistoryBtn">刷新</button>
+        </div>
+        <div id="historyList"></div>
+      </section>
+
+      <section id="view-settings" class="view">
+        <h2>本地设置</h2>
+        <div class="form-grid">
+          <label>完全重复阈值 <input id="exactThreshold" type="number" min="90" max="100" /></label>
+          <label>高度相似阈值 <input id="highThreshold" type="number" min="80" max="99" /></label>
+          <label>中度相似阈值 <input id="mediumThreshold" type="number" min="50" max="98" /></label>
+          <label>TopN结果 <input id="topN" type="number" min="1" max="10" /></label>
+          <label>默认待确认目录 <input id="pendingDirectory" type="text" /></label>
+          <label>日志路径 <input id="logPath" type="text" /></label>
+          <label><input id="enableWatch" type="checkbox" /> 启用目录监听</label>
+          <label><input id="includeSubdirectories" type="checkbox" /> 包含子目录</label>
+          <label><input id="autoLoadLastDirectory" type="checkbox" /> 自动加载上次目录</label>
+        </div>
+        <button id="saveSettingsBtn">保存设置</button>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

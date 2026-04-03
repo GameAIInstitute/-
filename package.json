@@ -1,0 +1,33 @@
+{
+  "name": "image-similarity-checker",
+  "version": "0.1.0",
+  "description": "Local desktop tool for incremental image similarity checks",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "check": "node --check src/main/main.js && node --check src/renderer/app.js",
+    "test": "npm run check",
+    "setup:deps": "bash scripts/setup-deps.sh",
+    "package:app": "bash scripts/package-app.sh"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.9.1",
+    "chokidar": "^4.0.3",
+    "electron": "^35.1.5",
+    "imghash": "^1.1.0",
+    "sharp": "^0.33.5"
+  },
+  "build": {
+    "appId": "com.local.image-similarity-checker",
+    "productName": "Image Similarity Checker",
+    "files": [
+      "src/**/*",
+      "package.json",
+      "README.md"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
